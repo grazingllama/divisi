@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>&lt;div&gt;isi</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="placeholder">
+      <div class="beschreibung">
+        <div class="bild-baustelle">
+          <img src="media/construction.png" alt="Baustelle" />
+        </div>
+        <div class="logo">
+          <a href="#">
+            <img
+              class="logo-divisi"
+              src="media/logo-divisi.png"
+              alt="Logo Divisi"
+            />
+          </a>
+        </div>
+        <p>
+          Hier entsteht gerade &lt;div&gt;isi, eine Web-App zur
+          <br />Musikvermittlung von Chor- und Orchesterwerken.
+        </p>
+      </div>
+    </div>
+    <footer>
+        &copy; 2024, Elia Šandor
+    </footer>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+      }
+
+      body {
+        background-color: black;
+        height: 100vh;
+        overflow: hidden;
+        color: white;
+        font-family: "Noto Serif", serif;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .logo-divisi {
+        position: relative;
+        height: 35px;
+        width: auto;
+        margin: 0;
+      }
+
+      .placeholder {
+        display: inline;
+      }
+
+      .beschreibung {
+        background-color: rgb(23, 23, 23);
+        position: absolute;
+        text-align: center;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        border-radius: 7px;
+        padding: 15px;
+      }
+
+      p {
+        margin-top: 20px;
+        font-size: 20px;
+      }
+
+      .bild-baustelle {
+        position: absolute;
+        top: -100px;
+        left: 60px;
+      }
+
+      .bild-baustelle img {
+        width: 100px;
+        height: auto;
+      }
+
+      footer {
+        position: absolute;
+        bottom: 0;
+        padding: 20px 20px;
+      }
+    </style>
+  </body>
+</html>
