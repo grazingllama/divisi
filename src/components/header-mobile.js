@@ -3,7 +3,6 @@ import ProfileIcon from '../media/icons/person.svg';
 import ProfileFillIcon from '../media/icons/person-fill.svg';
 import SettingsIcon from '../media/icons/settings.svg';
 import SettingsFillIcon from '../media/icons/settings-fill.svg';
-import SearchIcon from '../media/icons/search.svg';
 import '../App.css';
 import Profile from "./profile";
 import Settings from "./settings"

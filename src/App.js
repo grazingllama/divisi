@@ -13,7 +13,6 @@ import ComposerPage from "./components/composer";
 import MusicBar from "./components/music-bar";
 import SearchPage from "./components/search";
 import MobileHeader from "./components/header-mobile";
-import Player from "./components/player";
 
 // Hook to detect viewport width
 const useViewport = () => {

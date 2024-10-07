@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import SearchIcon from "../media/icons/search.svg";
-import ArtistComposerBlock from "./artistcomposer-block"; // Import ArtistComposerBlock
+import ArtistComposerBlock from "./artistcomposer-block"; // Import ArtistBlock
 import RecordingBlock from "./recording-block"; // Import RecordingBlock
 import "../App.css";
 
@@ -37,7 +37,9 @@ function SearchPage() {
                         artistIds: recording.artist_ids || [],  // Assume artist_ids is returned in the API for recordings
                     })) // Recordings
                 ];
-                console.log("Combined Results:", combinedResults);
+
+                console.log("Search Results:", data); // Log the API response for debugging
+                console.log("Combined Results:", combinedResults); // Log combined results to inspect structure
                 setResults(combinedResults);
                 setIsLoading(false);
             })
@@ -74,6 +76,9 @@ function SearchPage() {
         if (activeFilter === 'recording' && item.category !== 'recording') return false;
         return true; // Show everything if no filter is active
     });
+
+    // Debugging: Log filteredResults to check if filtering is applied correctly
+    console.log("Filtered Results based on active filter:", activeFilter, filteredResults);
 
     return (
         <div>

@@ -1,61 +1,72 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import MusicPlayer from './MusicPlayer';
+import React, { useState, useEffect } from 'react';
+import RecordingBlock from './recording-block'; // Assuming you have a RecordingBlock component
+import MusicPlayer from './player'; // Import the MusicPlayer component
 
-const Recording = () => {
-  const { recordingId } = useParams(); // Extract the recording ID from the URL params
-  const [recording, setRecording] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+const Recordings = () => {
+    const [recordings, setRecordings] = useState([]);
+    const [isLoading, setIsLoading] = useState(true); // Add a loading state
+    const [error, setError] = useState(null);
+    const [currentRecording, setCurrentRecording] = useState(null); // State to hold the current recording for the MusicPlayer
 
-  useEffect(() => {
-    // Fetch the recording details based on the recordingId
-    const fetchRecordingData = async () => {
-      try {
-        const response = await fetch(`https://divisi-project.de/getRecordingData.php?recording_id=${recordingId}`);
-        const data = await response.json();
-        setRecording(data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching recording:', error);
-        setIsLoading(false);
-      }
+    useEffect(() => {
+        // Fetch recordings from the API
+        fetch('https://divisi-project.de/getRecordings.php') // Adjust this URL to your actual API endpoint
+            .then(response => response.json())
+            .then(data => {
+                console.log('Fetched Recordings Data:', data); // Log the fetched data to inspect it
+                setRecordings(data); // Set the recordings data in state
+                setIsLoading(false); // Turn off loading state once data is fetched
+            })
+            .catch(error => {
+                console.error('Error fetching recordings:', error); // Log any error during fetch
+                setError('Error fetching recordings'); // Set error message in state
+                setIsLoading(false); // Turn off loading state if error occurs
+            });
+    }, []);
+
+    const handlePlayClick = (recording) => {
+        setCurrentRecording(recording); // Set the selected recording to play in the MusicPlayer
     };
 
-    fetchRecordingData();
-  }, [recordingId]);
+    if (isLoading) return <div>Loading recordings...</div>; // Display a loading message while fetching data
+    if (error) return <div>{error}</div>; // Display an error message if something goes wrong
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+    return (
+        <div>
+            <h1>Recordings</h1>
+            {recordings.length === 0 ? (
+                <p>No recordings found.</p>
+            ) : (
+                <ul>
+                    {recordings.map(recording => (
+                        <li key={recording.id}>
+                            <RecordingBlock
+                                pieceName={recording.piece_name}
+                                catalogueNumber={recording.catalogue_number}
+                                composerName={recording.composer_name}
+                                composerId={recording.composer_id} // Assuming you have composerId in data
+                                recordingId={recording.id}
+                                artistNames={recording.artist_names || []}
+                                artistIds={recording.artist_ids || []} // Pass artist IDs correctly
+                            />
+                            <button onClick={() => handlePlayClick(recording)}>
+                                Play this Recording
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            )}
 
-  if (!recording) {
-    return <div>Recording not found</div>;
-  }
-
-  const { pieceName, catalogueNumber, pieceInfo, composer, artists, recordingDate } = recording;
-
-  return (
-    <div>
-      <h1>{pieceName}</h1>
-      <p>
-        <Link to={`/composer/${composer.id}`}>{composer.name}</Link>
-      </p>
-      <p>Catalogue Number: {catalogueNumber}</p>
-      <p>{pieceInfo}</p> {/* Display the additional piece info */}
-      <div>
-        <h4>Artists:</h4>
-        <ul>
-          {artists.map(artist => (
-            <li key={artist.id}>
-              <Link to={`/artist/${artist.id}`}>{artist.name}</Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <p>Recording Date: {new Date(recordingDate).toLocaleDateString()}</p>
-      <MusicPlayer recording={recording} />
-    </div>
-  );
+            {/* Music Player: only show when a recording is selected */}
+            {currentRecording && (
+                <MusicPlayer
+                    url={currentRecording.complete_recording} // Pass the recording URL to the player
+                    targetVolume={0.8} // Adjust the volume as needed
+                    playing={true} // Automatically start playing when a recording is selected
+                />
+            )}
+        </div>
+    );
 };
 
-export default Recording;
+export default Recordings;
