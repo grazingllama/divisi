@@ -1,6 +1,6 @@
 {
-  "name": "tutorial-app",
-  "version": "0.1.0",
+  "name": "divisi",
+  "version": "0.2.1",
   "private": true,
   "homepage": "https://divisi-project.de/build",
   "dependencies": {
