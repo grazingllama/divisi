@@ -40,7 +40,13 @@ function SearchPage() {
 
                 console.log("Search Results:", data); // Log the API response for debugging
                 console.log("Combined Results:", combinedResults); // Log combined results to inspect structure
-                setResults(combinedResults);
+
+                // Ensure unique results by using an ID-based filtering
+                const uniqueResults = combinedResults.filter((item, index, self) => 
+                    index === self.findIndex((t) => t.id === item.id)
+                );
+
+                setResults(uniqueResults); // Set only unique results to avoid duplicates
                 setIsLoading(false);
             })
             .catch(error => {
@@ -76,9 +82,6 @@ function SearchPage() {
         if (activeFilter === 'recording' && item.category !== 'recording') return false;
         return true; // Show everything if no filter is active
     });
-
-    // Debugging: Log filteredResults to check if filtering is applied correctly
-    console.log("Filtered Results based on active filter:", activeFilter, filteredResults);
 
     return (
         <div>
